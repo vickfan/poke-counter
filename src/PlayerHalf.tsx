@@ -114,7 +114,7 @@ export default function PlayerHalf({ state, onChange, onFlip, onConfirmAttack }:
 
   function onHpTap() {
     setFocus('active')
-    if (activeAtZero) return
+    if (activeAtZero || activeUnset) return
     if (attacking) {
       onConfirmAttack()
       setAttacking(false)
