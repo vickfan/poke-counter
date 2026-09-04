@@ -1,0 +1,254 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #111;
+  color: #111;
+}
+
+.app {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.half {
+  flex: 1;
+  min-height: 0;
+  background: var(--half-bg, #f4f4f5);
+  --half-accent: #18181b;
+}
+
+.half--red {
+  --half-accent: #dc2626;
+  --half-bg: #fef2f2;
+  --hp-bg: #f87171;
+}
+
+.half--blue {
+  --half-accent: #2563eb;
+  --half-bg: #eff6ff;
+  --hp-bg: #60a5fa;
+}
+
+.half--rotated {
+  transform: rotate(180deg);
+}
+
+.divider {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  height: 0;
+  margin: 0;
+}
+
+.divider-line {
+  flex: 1;
+  height: 6px;
+}
+
+.divider-line--red {
+  background: #dc2626;
+}
+
+.divider-line--blue {
+  background: #2563eb;
+}
+
+.divider-ball {
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+  flex-shrink: 0;
+  margin: 0 0.15rem;
+}
+
+.half-inner {
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(52px, 12%) 1fr minmax(72px, 22%);
+  gap: 0.5rem;
+  padding: 0.5rem;
+  align-items: stretch;
+}
+
+.statuses {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-height: 0;
+}
+
+.status {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.35rem;
+  border: 2px solid #a1a1aa;
+  border-radius: 6px;
+  padding: 0.25rem 0.4rem;
+  background: #fff;
+  color: #18181b;
+  font-weight: 700;
+  font-size: clamp(0.65rem, 2.5vw, 0.85rem);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.status.on {
+  border-color: var(--status-color);
+  color: var(--status-color);
+}
+
+.status.off .status-icon {
+  filter: grayscale(1);
+  opacity: 0.45;
+}
+
+.status.off::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(113, 113, 122, 0.45);
+  pointer-events: none;
+}
+
+.status-icon {
+  width: auto;
+  height: 70%;
+  max-height: 2.2rem;
+  max-width: 2.2rem;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.status-label {
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.hp-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--hp-bg);
+  border: 3px solid #18181b;
+  border-radius: 10px;
+  min-width: 0;
+  color: #fff;
+}
+
+.hp-tag {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.55rem;
+  font-size: clamp(0.7rem, 2.8vw, 0.95rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  color: #fff;
+  opacity: 0.9;
+}
+
+.hp-box.ko {
+  border-color: #18181b;
+  background: #ef4444;
+}
+
+.hp-value {
+  font-size: clamp(2.5rem, 14vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.hp-value.fainted {
+  font-size: clamp(0.85rem, 3.5vw, 1.35rem);
+  letter-spacing: 0.04em;
+  text-align: center;
+  padding: 0 0.5rem;
+  line-height: 1.2;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-height: 0;
+}
+
+.ctrl {
+  flex: 1;
+  border: 2px solid #18181b;
+  border-radius: 6px;
+  background: #fff;
+  color: #18181b;
+  font-size: clamp(1.1rem, 4.5vw, 1.6rem);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.ctrl:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.ctrl:active:not(:disabled) {
+  background: #e4e4e7;
+}
+
+.ctrl.reset {
+  font-size: clamp(0.75rem, 3vw, 1rem);
+  background: #18181b;
+  color: #fff;
+  border-color: #18181b;
+}
+
+.ctrl.flash-heal {
+  color: #fff;
+  animation: btn-flash-heal 0.14s ease;
+}
+
+.ctrl.flash-damage {
+  color: #fff;
+  animation: btn-flash-damage 0.14s ease;
+}
+
+@keyframes btn-flash-heal {
+  0%,
+  100% {
+    background: #22c55e;
+    border-color: #16a34a;
+    color: #fff;
+  }
+}
+
+@keyframes btn-flash-damage {
+  0%,
+  100% {
+    background: #ef4444;
+    border-color: #dc2626;
+    color: #fff;
+  }
+}
