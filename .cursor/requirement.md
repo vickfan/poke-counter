@@ -7,14 +7,19 @@ Track remaining HP and abnormal statuses for both players on one shared device.
 ### Layout
 - Portrait-only, full-bleed (`100dvh`); prevent page scroll/zoom as much as the browser allows
 - Screen split into two halves stacked vertically; top half rotated 180° so each player faces their UI
-- Per half, left → right: status toggles | HP box (center) | control stack
+- Per half, left → right: status toggles | HP + bench | control stack
+- **5 bench slots** under the HP box; each has its own HP + statuses
+- Single tap a bench slot (or the HP box) to select it for editing; controls/statuses apply to the selection
+- Double-tap a filled bench slot to swap it with the active Pokémon
+- When active is unset (e.g. after faint reset): grey out the HP box; highlight filled bench slots with the half accent border; **single tap** promotes that bench Pokémon to active
 
 ### HP model
 - Remaining HP (not damage counters)
 - Floor at 0; no ceiling (heal can exceed starting HP)
 - Unset state shows `—`; +/− disabled until set (except first `+` from unset)
 - From unset, treat as 0: first `+` sets HP to the current step
-- At 0: show **POKEMON FAINTED** on a black HP box; auto-Reset that half after ~1s (heal before then cancels auto-reset)
+- At 0 (active or bench): show fainted cue; auto-Reset that Pokémon after ~1s (heal before then cancels)
+- Reset control clears the **currently selected** Pokémon (active or bench slot); step resets only when clearing active
 
 
 ### Controls (per half, right stack)
