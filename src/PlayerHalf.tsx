@@ -1,4 +1,4 @@
-import { useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import {
   STEPS,
   STATUSES,
@@ -14,11 +14,14 @@ import {
 type Props = {
   state: PlayerState
   onChange: (next: PlayerState) => void
+  onFlip: () => void
 }
 
 type Flash = 'heal' | 'damage'
 
-export default function PlayerHalf({ state, onChange }: Props) {
+const FAINT_RESET_MS = 1000
+
+export default function PlayerHalf({ state, onChange, onFlip }: Props) {
   const step = STEPS[state.stepIndex]
   const unset = state.hp == null
   const atZero = state.hp === 0
@@ -26,6 +29,16 @@ export default function PlayerHalf({ state, onChange }: Props) {
   const [flash, setFlash] = useState<Flash | null>(null)
   const flashKey = useRef(0)
   const [flashTick, setFlashTick] = useState(0)
+  const onChangeRef = useRef(onChange)
+  onChangeRef.current = onChange
+
+  useEffect(() => {
+    if (state.hp !== 0) return
+    const id = window.setTimeout(() => {
+      onChangeRef.current(resetPlayer())
+    }, FAINT_RESET_MS)
+    return () => window.clearTimeout(id)
+  }, [state.hp])
 
   function blink(kind: Flash) {
     const id = ++flashKey.current
@@ -89,9 +102,12 @@ export default function PlayerHalf({ state, onChange }: Props) {
         >
           −
         </button>
-        <button type="button" className="ctrl reset" onClick={() => onChange(resetPlayer())}>
-          Reset
-        </button>
+        <div className="ctrl-row">
+          <button type="button" className="ctrl flip" onClick={onFlip} aria-label="Flip coin" />
+          <button type="button" className="ctrl reset" onClick={() => onChange(resetPlayer())}>
+            Reset
+          </button>
+        </div>
       </div>
     </div>
   )
