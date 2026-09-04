@@ -14,7 +14,8 @@ Track remaining HP and abnormal statuses for both players on one shared device.
 - Floor at 0; no ceiling (heal can exceed starting HP)
 - Unset state shows `—`; +/− disabled until set (except first `+` from unset)
 - From unset, treat as 0: first `+` sets HP to the current step
-- At 0: show `0` with a light KO visual cue (e.g. red HP box / “KO”); play continues; heal can raise HP again
+- At 0: show **POKEMON FAINTED** on a black HP box; auto-Reset that half after ~1s (heal before then cancels auto-reset)
+
 
 ### Controls (per half, right stack)
 1. **Step** — cycles `10 → 50 → 100 → 10…`; default `10` on load and after Reset; independent per half; button label shows current step
@@ -36,12 +37,18 @@ Track remaining HP and abnormal statuses for both players on one shared device.
 - Vite + React + TypeScript
 - Utilitarian high-contrast UI; readability over theme
 
+## Phase 2 — coin flip
+- Per half: **Flip** button beside **Reset** (same row: Flip | Reset)
+- Tap Flip → short coin-flip animation as a centered overlay over the **whole app** (covers both halves)
+- One coin only (single orientation; not duplicated/rotated for each player)
+- After the animation, show heads or tails (fair 50/50); dismiss on tap (or auto-dismiss after a short beat)
+- No persistence of flip result required
+
 ## Out of scope / later
 - Number pad / free digit entry for HP
 - Soft TCG status rules (A/P/C exclusive; poison & burn stack)
 - PWA / add-to-home-screen
 - Themed or dark “arcade” visuals
 - Landscape dual layout
-- Auto-reset on KO
 - Effect engine, deck/prize tracking, timers
 - Backend / multi-device sync
