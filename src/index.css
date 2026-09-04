@@ -92,6 +92,28 @@ body,
   flex-direction: column;
   gap: 0.35rem;
   min-height: 0;
+  container-type: inline-size;
+}
+
+@container (max-width: 5.5rem) {
+  .status {
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    padding: 0.2rem;
+  }
+
+  .status-label {
+    display: none;
+  }
+
+  .status-icon {
+    width: 70%;
+    height: auto;
+    max-width: 2.2rem;
+    max-height: 75%;
+    margin: 0 auto;
+  }
 }
 
 .status {
@@ -148,6 +170,8 @@ body,
 
 .hp-box {
   position: relative;
+  flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -157,6 +181,144 @@ body,
   border-radius: 10px;
   min-width: 0;
   color: #fff;
+  width: 100%;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.hp-box.selected {
+  outline: 2px solid #18181b;
+  outline-offset: 1px;
+}
+
+.hp-box.empty {
+  background: #a1a1aa;
+  border-color: #71717a;
+  color: #e4e4e7;
+  opacity: 0.75;
+}
+
+.hp-box.empty .hp-tag {
+  opacity: 0.7;
+}
+
+.center-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+  min-height: 0;
+}
+
+.bench {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.bench-slot {
+  position: relative;
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  min-width: 0;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  height: auto;
+  min-height: 0;
+  padding: 0.35rem 0.15rem 1rem;
+  border: 2px solid var(--hp-bg, var(--half-accent));
+  border-radius: 6px;
+  background: #fff;
+  color: #18181b;
+  font: inherit;
+  cursor: pointer;
+  text-align: center;
+}
+
+.bench-slot.selected,
+.bench-slot.promotable {
+  border-color: transparent;
+  background: var(--hp-bg, var(--half-accent));
+  color: #fff;
+  box-shadow: none;
+  opacity: 1;
+}
+
+.bench-slot.empty {
+  background: #e4e4e7;
+  border-color: color-mix(in srgb, var(--hp-bg, var(--half-accent)) 45%, #a1a1aa);
+  color: #71717a;
+  opacity: 0.65;
+}
+
+.bench-slot.empty.selected {
+  border-color: transparent;
+  background: var(--hp-bg, var(--half-accent));
+  color: #fff;
+  opacity: 1;
+  box-shadow: none;
+}
+
+.bench-slot.ko {
+  background: #000;
+  border-color: #18181b;
+  color: #fff;
+}
+
+.bench-slot.ko.selected,
+.bench-slot.ko.promotable {
+  border-color: transparent;
+  background: var(--hp-bg, var(--half-accent));
+  color: #fff;
+}
+
+.bench-hp {
+  font-size: clamp(0.75rem, 2.8vw, 1rem);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  text-align: center;
+  width: 100%;
+}
+
+.bench-statuses {
+  position: absolute;
+  left: 0.1rem;
+  right: 0.1rem;
+  bottom: 0.2rem;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  height: clamp(0.85rem, 22cqi, 1.4rem);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.bench-status-icon {
+  width: clamp(0.7rem, 20cqi, 1.35rem);
+  height: clamp(0.7rem, 20cqi, 1.35rem);
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+  position: relative;
+  margin-left: clamp(-0.5rem, -0.55rem + 10cqi, -0.05rem);
+  pointer-events: none;
+}
+
+.bench-status-icon:first-child {
+  margin-left: 0;
+}
+
+.bench-slot.ko .bench-status-icon {
+  filter: grayscale(1);
+  opacity: 0.85;
 }
 
 .hp-tag {
@@ -181,6 +343,11 @@ body,
   font-weight: 800;
   line-height: 1;
   font-variant-numeric: tabular-nums;
+  transition: font-size 0.15s ease;
+}
+
+.hp-value.shrunk {
+  font-size: clamp(1.1rem, 5vw, 1.75rem);
 }
 
 .hp-value.fainted {
@@ -189,6 +356,14 @@ body,
   text-align: center;
   padding: 0 0.5rem;
   line-height: 1.2;
+}
+
+.hp-attack {
+  margin-top: 0.35rem;
+  font-size: clamp(1.1rem, 5vw, 1.75rem);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1;
 }
 
 .controls {
@@ -219,10 +394,22 @@ body,
 }
 
 .ctrl.reset {
-  font-size: clamp(0.75rem, 3vw, 1rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #18181b;
   color: #fff;
   border-color: #18181b;
+}
+
+.ctrl.reset:active:not(:disabled) {
+  background: #18181b;
+}
+
+.reset-icon {
+  width: 1.375rem;
+  height: 1.375rem;
+  display: block;
 }
 
 .ctrl-row {
@@ -233,7 +420,9 @@ body,
 }
 
 .ctrl-row .ctrl {
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
+  width: 0;
 }
 
 .ctrl.flip {
